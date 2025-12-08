@@ -1,0 +1,46 @@
+FROM --platform=linux/amd64 ubuntu:24.04 as base
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TERM=xterm
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    python3 \
+    python3-pip \
+    supervisor \
+    procps \
+    tint2 \
+    gdebi-core \
+    git \
+    vim \
+    less \
+    lsof \
+    tree \
+    curl \
+    wget \
+    unzip \
+    fonts-noto-cjk \
+    locales \
+    --no-install-recommends && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+#install js dependencies
+RUN npm install -g cnpm --registry=https://registry.npmmirror.com
+
+# Install ossfs2
+RUN wget https://gosspublic.alicdn.com/ossfs/ossfs2_2.0.3_linux_x86_64.deb -O ossfs2.deb && \
+    dpkg -i ossfs2.deb && \
+    ossfs2 --version && \
+    rm ossfs2.deb
+
+# Setup languate
+RUN locale-gen zh_CN.UTF-8 && \
+    update-locale LANG=zh_CN.UTF-8
