@@ -1,11 +1,12 @@
 name: Docker Build and Push
 
 on:
-  push:
-    branches: [ test ]
-    tags: [ 'v*' ]
-  pull_request:
-    branches: [ test ]
+  workflow_dispatch:
+  # push:
+  #   branches: [ test ]
+  #   tags: [ 'v*' ]
+  # pull_request:
+  #   branches: [ test ]
 
 env:
   REGISTRY: ghcr.io
